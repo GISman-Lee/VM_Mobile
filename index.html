@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app = "MapCtrl">
+<html ng-app = "VM_Mobile2">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <!-- On iOS, as part of optimizing your web application, have it use the
@@ -18,7 +18,7 @@
     <!-- Sets the style of the status bar for a web application when in standalone
     mode -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Getting Started - Mobile</title>
+    <title>Vehicle Management - Mobile</title>
 
     <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
@@ -27,6 +27,8 @@
     <script>var dojoConfig = { mblAlwaysHideAddressBar: true };</script>
     <script src="http://js.arcgis.com/3.9compact/"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular-route.min.js"></script>
+    <script src="Js/map.js"></script>
     <script>
     require(["esri/map", "dojox/mobile", "dojox/mobile/parser", "esri/sniff", 
             "dojox/mobile/deviceTheme", "dojo/dom", "dijit/registry", "dojo/on", 
@@ -115,7 +117,7 @@
                "Device Information", 
                "<h4>Device ID: </h4>" + entry.Did + "<br>" + 
                "<h4>Subject Name: </h4>" + entry.BusinessName +"<br>" +
-              "<h4>Time: </h4>" + Date(parseInt(entry.Time)).toString()
+               "<h4>Time: </h4>" + Date(parseInt(entry.Time)).toString()
             )
 
             SubjectGraphicsLayer.add(
@@ -170,10 +172,16 @@
       </div>
     </div>
 
-    <div id="aboutView" data-dojo-type="dojox.mobile.View">
+    <div id="aboutView" data-dojo-type="dojox.mobile.View" ng-controller="MapCtrl">
       <h1 data-dojo-type="dojox.mobile.Heading" data-dojo-props="back:'Map', moveTo:'mapView'">Device Panel</h1>
-      <p style="padding: 5px;">This area can contain additional information about your application.</p>
- 
+     <!-- <p style="padding: 5px;">This area can contain additional information about your application.</p> -->
+      <ul data-dojo-type="dojox/mobile/RoundRectList" >
+            <li data-dojo-type="dojox/mobile/ListItem"  ng-repeat = "dev in DevInfos">
+               <div data-mobile-layout="left">{{dev.BusinessName}}</div>
+               <div data-mobile-layout="right"><img src="images/DeviceType{{dev.SubjectType}}/number_{{dev.Id}}.png" alt="Smiley face" height="22" width="22"></div>
+            </li>
+       </ul>
+
     </div>
   </body>
 </html>
