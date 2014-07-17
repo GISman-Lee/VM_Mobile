@@ -2,16 +2,6 @@
 <html ng-app = "VM_Mobile2">
   <head>
   <style>
-   #search 
-   {
-      position:  absolute;
-      z-index: 1;
-      display: block;
-      top: 70px;
-      margin-left: 20px;
-      float: right;
-   }
-
   .mblListItemLayoutLeft {position: relative; float: left; margin-right: 11px;}
   .mblListItemLayoutRight {position: relative; float: right;}
   .mblListItem {position: relative; overflow: hidden; padding: 0 8px; height: 43px; list-style-type: none; line-height: 43px; -webkit-tap-highlight-color: rgba(255, 255, 255, 0); border-bottom: 1px solid #adaaad; font-weight: bold; color: black;}
@@ -119,14 +109,8 @@
             SubjectGraphicsLayer = new esri.layers.GraphicsLayer({ 
                   "id": "subject_graphics", 
             });
-            
-            LocationGraphicsLayer = new esri.layers.GraphicsLayer({
-                  "id": "location_graphics"
-            });
              
             map.addLayer(SubjectGraphicsLayer);
-            map.addLayer(LocationGraphicsLayer);
-
             dojo.connect(SubjectGraphicsLayer.graphics, "onClick", function(evt) {  //"onMouseMove"
                var g = evt.graphic;
                map.infoWindow.setContent(g.getContent());
@@ -166,7 +150,7 @@
   
         function QueryData(){ 
             var MyQuery = esri.request({
-               url:  "http://120.151.95.114:8080/Projects/Services/GPSServices.svc/GetTrackerDevCrossTable",  //"http://120.151.95.114:8080/GPSServices.svc/GetTrackerDevCrossTable", //"data/test2.json", 
+               url:  "http://120.151.95.114:8080/GPSServices.svc/GetTrackerDevCrossTable", //"data/test2.json", 
                handleAs: "json",
                //callbackParamName: "jsoncallback"
             });
@@ -193,51 +177,12 @@
         //contentDivHeight = $("#mapView").height();contentDivWidth = $("#mapView").width(); alert(contentDivHeight.toString());
     </script>
 
-    <script>
-        require([
-           "esri/map",
-           "esri/dijit/Geocoder",
-           "esri/graphic",
-           "esri/symbols/SimpleMarkerSymbol",
-           "esri/geometry/screenUtils",
-           "dojo/dom",
-           "dojo/dom-construct",
-           "dojo/query",
-           "dojo/_base/Color",
-           "dojo/domReady!"
-        ], function ( Map, Geocoder, Graphic, SimpleMarkerSymbol, screenUtils, dom, domConstruct, query, Color) {
-           var geocoder = new Geocoder({
-               autoComplete: true,
-               map: map,
-               arcgisGeocoder: {
-                  placeholder: "Find a place"
-               },
-           }, dom.byId("search"));
-
-           geocoder.on("select", showLocation);
-
-           function showLocation(evt) {
-              LocationGraphicsLayer.clear();
-              var point = evt.result.feature.geometry;
-              var symbol = new SimpleMarkerSymbol().setStyle("square").setColor(new Color([255,0,0,0.5]));
-              var graphic = new Graphic(point, symbol);
-              LocationGraphicsLayer.add(graphic);
-              map.infoWindow.setTitle("Search Result");
-              map.infoWindow.setContent(evt.result.name);
-              map.infoWindow.show(evt.result.feature.geometry);
-           }
-
-           geocoder.startup();
-        });
-    </script>
-
     <div id="mapView" data-dojo-type="dojox.mobile.View" data-dojo-props="selected: true">
       <div id="header" data-dojo-type="dojox.mobile.Heading">
         <div id="aboutButton" data-dojo-type="dojox.mobile.ToolBarButton" style="float: right;" moveTo="aboutView">Device Panel</div>
       </div>
       <div id="mapContainer" data-dojo-type="dojox.mobile.ContentPane">
-        <div id="map" style="z-index:0"></div>
-        <div id="search"></div>
+        <div id="map"></div>
       </div>
     </div>
 
