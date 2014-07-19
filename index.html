@@ -2,19 +2,19 @@
 <html ng-app = "VM_Mobile2">
 <head>
   <style>
-   #search
-   {
-    position:  absolute;
-    z-index: 1;
-    display: block;
-    top: 70px;
-    margin-left: 20px;
-    float: right;
-  }
+     #search
+     {
+        position:  absolute;
+        z-index: 1;
+        display: block;
+        top: 70px;
+        margin-left: 20px;
+        float: right;
+    }
 
-  .mblListItemLayoutLeft {position: relative; float: left; margin-right: 11px;}
-  .mblListItemLayoutRight {position: relative; float: right;}
-  .mblListItem {position: relative; overflow: hidden; padding: 0 8px; height: 43px; list-style-type: none; line-height: 43px; -webkit-tap-highlight-color: rgba(255, 255, 255, 0); border-bottom: 1px solid #adaaad; font-weight: bold; color: black;}
+    .mblListItemLayoutLeft {position: relative; float: left; margin-right: 11px;}
+    .mblListItemLayoutRight {position: relative; float: right;}
+    .mblListItem {position: relative; overflow: hidden; padding: 0 8px; height: 43px; list-style-type: none; line-height: 43px; -webkit-tap-highlight-color: rgba(255, 255, 255, 0); border-bottom: 1px solid #adaaad; font-weight: bold; color: black;}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <!-- On iOS, as part of optimizing your web application, have it use the
@@ -62,7 +62,7 @@
             center: [151.209900, -33.865143],
             zoom: 10,
             slider: false
-          });
+        });
           //osmLayer = new esri.layers.OpenStreetMapLayer();
           //map.addLayer(osmLayer);
           //gMapLayer = new gmaps.GoogleMapsLayer({ visible: true, id: 'googlemaps' });
@@ -75,25 +75,25 @@
           function mapLoadHandler(evt) {
             resizeMap();
             registry.byId('mapView').on('AfterTransitionIn', resizeMap);
-          }
+        }
 
-          function resizeMap() {
+        function resizeMap() {
             mobile.hideAddressBar();
             adjustMapHeight();
             map.resize();
             map.reposition();
-          }
+        }
 
-          function adjustMapHeight() {
+        function adjustMapHeight() {
             var availHeight = mobile.getScreenSize().h - registry.byId('header').domNode.clientHeight - 1;
             if (has('iphone') || has('ipod')) {
               availHeight += iphoneAdjustment();
-            }
-            dom.byId("map").style.height = availHeight + "px";
           }
+          dom.byId("map").style.height = availHeight + "px";
+      }
 
-          function iphoneAdjustment() {
-            var sz = mobile.getScreenSize();
+      function iphoneAdjustment() {
+        var sz = mobile.getScreenSize();
               if (sz.h > sz.w) { //portrait
                   //Need to add address bar height back to map
                   return screen.availHeight - window.innerHeight - 40; /* 40 = height of bottom safari toolbar */
@@ -102,12 +102,12 @@
                   var _conn = on(window, 'resize', function () {
                     _conn.remove();
                     resizeMap();
-                  });
+                });
                   return 0;
-                }
               }
+          }
 
-            });
+      });
 </script>
 </head>
 
@@ -118,36 +118,36 @@
       esri.config.defaults.io.corsEnabledServers.push("120.151.95.114:8080");
       SubjectGraphicsLayer = new esri.layers.GraphicsLayer({
         "id": "subject_graphics",
-      });
+    });
 
       LocationGraphicsLayer = new esri.layers.GraphicsLayer({
         "id": "location_graphics"
-      });
+    });
 
       map.addLayer(SubjectGraphicsLayer);
       map.addLayer(LocationGraphicsLayer);
 
             dojo.connect(SubjectGraphicsLayer.graphics, "onClick", function(evt) {  //"onMouseMove"
-             var g = evt.graphic;
-             map.infoWindow.setContent(g.getContent());
-             map.infoWindow.setTitle("Device Infomation");
-             map.infoWindow.show(evt.screenPoint,map.getInfoWindowAnchor(evt.screenPoint));
+               var g = evt.graphic;
+               map.infoWindow.setContent(g.getContent());
+               map.infoWindow.setTitle("Device Infomation");
+               map.infoWindow.show(evt.screenPoint,map.getInfoWindowAnchor(evt.screenPoint));
            });
             //dojo.connect(SubjectGraphicsLayer.graphics, "onMouseLeave", function() {map.infoWindow.hide();} );
 
             setInterval( "QueryData()", 10000 );
-          }
+        }
 
-          function addPointToMap(entry) {
+        function addPointToMap(entry) {
             //var point = new esri.geometry.Point(lon,lat);
             //point = esri.geometry.geographicToWebMercator(point);
 
             var template = new esri.InfoTemplate(
-             "Device Information",
-             "<h4>Device ID: </h4>" + entry.Did + "<br>" +
-             "<h4>Subject Name: </h4>" + entry.BusinessName +"<br>" +
-             "<h4>Time: </h4>" + Date(parseInt(entry.Time)).toString()
-             )
+               "Device Information",
+               "<h4>Device ID: </h4>" + entry.Did + "<br>" +
+               "<h4>Subject Name: </h4>" + entry.BusinessName +"<br>" +
+               "<h4>Time: </h4>" + Date(parseInt(entry.Time)).toString()
+               )
 
             SubjectGraphicsLayer.add(
 
@@ -162,83 +162,83 @@
               );
 
 
-          }
+        }
 
-          function QueryData(){
+        function QueryData(){
             var MyQuery = esri.request({
                url:  "http://120.151.95.114:8080/Projects/Services/GPSServices.svc/GetTrackerDevCrossTable",  //"http://120.151.95.114:8080/GPSServices.svc/GetTrackerDevCrossTable", //"data/test2.json",
                handleAs: "json",
                //callbackParamName: "jsoncallback"
-             });
+           });
             MyQuery.then(requestSucceeded, requestFailed);
-          }
+        }
 
-          function requestSucceeded(data) {
+        function requestSucceeded(data) {
             //var jsonData = JSON.parse(data);
 
             SubjectGraphicsLayer.clear();
             //map.graphics.clear();
             data.forEach(function(entry){
-             addPointToMap(entry);
+               addPointToMap(entry);
            });
 
             console.log("Data: ", data); // print the data to browser's console
-          }
+        }
 
-          function requestFailed(error) {
+        function requestFailed(error) {
             console.log("Error: ", error.message);
-          }
+        }
 
-          dojo.ready(OnloadCallBack);
+        dojo.ready(OnloadCallBack);
         //contentDivHeight = $("#mapView").height();contentDivWidth = $("#mapView").width(); alert(contentDivHeight.toString());
-      </script>
+    </script>
 
-      <script>
+    <script>
         require([
-         "esri/map",
-         "esri/dijit/Geocoder",
-         "esri/graphic",
-         "esri/symbols/SimpleMarkerSymbol",
-         "esri/geometry/screenUtils",
-         "dojo/dom",
-         "dojo/dom-construct",
-         "dojo/query",
-         "dojo/_base/Color",
-         "dojo/domReady!"
-         ], function ( Map, Geocoder, Graphic, SimpleMarkerSymbol, screenUtils, dom, domConstruct, query, Color) {
-           var geocoder = new Geocoder({
-             autoComplete: true,
-             map: map,
-             arcgisGeocoder: {
-              placeholder: "Find a place"
-            },
+           "esri/map",
+           "esri/dijit/Geocoder",
+           "esri/graphic",
+           "esri/symbols/SimpleMarkerSymbol",
+           "esri/geometry/screenUtils",
+           "dojo/dom",
+           "dojo/dom-construct",
+           "dojo/query",
+           "dojo/_base/Color",
+           "dojo/domReady!"
+           ], function ( Map, Geocoder, Graphic, SimpleMarkerSymbol, screenUtils, dom, domConstruct, query, Color) {
+             var geocoder = new Geocoder({
+               autoComplete: true,
+               map: map,
+               arcgisGeocoder: {
+                  placeholder: "Find a place"
+              },
           }, dom.byId("search"));
 
-           geocoder.on("select", showLocation);
+             geocoder.on("select", showLocation);
 
-           function showLocation(evt) {
-            LocationGraphicsLayer.clear();
-            var point = evt.result.feature.geometry;
-            var symbol = new SimpleMarkerSymbol().setStyle("square").setColor(new Color([255,0,0,0.5]));
-            var graphic = new Graphic(point, symbol);
-            LocationGraphicsLayer.add(graphic);
-            map.infoWindow.setTitle("Search Result");
-            map.infoWindow.setContent(evt.result.name);
-            map.infoWindow.show(evt.result.feature.geometry);
-          }
+             function showLocation(evt) {
+                LocationGraphicsLayer.clear();
+                var point = evt.result.feature.geometry;
+                var symbol = new SimpleMarkerSymbol().setStyle("square").setColor(new Color([255,0,0,0.5]));
+                var graphic = new Graphic(point, symbol);
+                LocationGraphicsLayer.add(graphic);
+                map.infoWindow.setTitle("Search Result");
+                map.infoWindow.setContent(evt.result.name);
+                map.infoWindow.show(evt.result.feature.geometry);
+            }
 
-          geocoder.startup();
+            geocoder.startup();
         });
 </script>
 
 <div id="mapView" data-dojo-type="dojox.mobile.View" data-dojo-props="selected: true">
   <div id="header" data-dojo-type="dojox.mobile.Heading">
     <div id="aboutButton" data-dojo-type="dojox.mobile.ToolBarButton" style="float: right;" moveTo="aboutView">Device Panel</div>
-  </div>
-  <div id="mapContainer" data-dojo-type="dojox.mobile.ContentPane">
+</div>
+<div id="mapContainer" data-dojo-type="dojox.mobile.ContentPane">
     <div id="map" style="z-index:0"></div>
     <div id="search"></div>
-  </div>
+</div>
 </div>
 
 <div id="aboutView" data-dojo-type="dojox.mobile.View" ng-controller="PanelCtrl" style="display:none" >
@@ -249,9 +249,9 @@
                <div data-mobile-layout="right"><img src="images/DeviceType{{dev.SubjectType}}/number_{{dev.Id}}.png" alt="Smiley face" height="22" width="22"></div> -->
                <div class="mblListItemLayoutLeft">{{dev.BusinessName}}</div>
                <div class="mblListItemLayoutRight"><img src="images/DeviceType{{dev.SubjectType}}/number_{{dev.Id}}.png" alt="Smiley face" height="22" width="22"></div>
-             </li>
-           </ul>
+           </li>
+       </ul>
 
-         </div>
-       </body>
-       </html>
+   </div>
+</body>
+</html>
