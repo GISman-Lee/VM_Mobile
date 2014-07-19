@@ -43,7 +43,7 @@
     <script src="http://js.arcgis.com/3.9compact/"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular-route.min.js"></script>
-    <script src="Js/map.js"></script>
+    <script src="Js/panel.js"></script>
     <!-- <script src="http://gmaps-utility-gis.googlecode.com/svn/trunk/gmapslayer/src/gmapslayer.js"></Script> -->
     <!--  <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>  -->
     <!--  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js"></script> -->
@@ -241,7 +241,7 @@
   </div>
 </div>
 
-<div id="aboutView" data-dojo-type="dojox.mobile.View" ng-controller="MapCtrl" style="display:none" >
+<div id="aboutView" data-dojo-type="dojox.mobile.View" ng-controller="PanelCtrl" style="display:none" >
   <h1 data-dojo-type="dojox.mobile.Heading" data-dojo-props="back:'Map', moveTo:'mapView'">Device Panel</h1>
   <ul data-dojo-type="dojox/mobile/RoundRectList" >
     <li data-dojo-type="dojox/mobile/ListItem"  class="mblListItem" ng-repeat = "dev in DevInfos">
