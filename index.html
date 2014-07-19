@@ -36,7 +36,7 @@
     <title>Vehicle Management - Mobile</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
-    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
 
     <script>var dojoConfig = { mblAlwaysHideAddressBar: true };</script>
@@ -253,5 +253,21 @@
        </ul>
 
    </div>
+
+   <div class="container-fluid">
+      <div class="row-fluid">
+      <div class="span2" ng-controller="PanelCtrl">
+              <ul data-dojo-type="dojox/mobile/RoundRectList" >
+                <li data-dojo-type="dojox/mobile/ListItem"  class="mblListItem" ng-repeat = "dev in DevInfos">
+               <div class="mblListItemLayoutLeft">{{dev.BusinessName}}</div>
+               <div class="mblListItemLayoutRight"><img src="images/DeviceType{{dev.SubjectType}}/number_{{dev.Id}}.png" alt="Smiley face" height="22" width="22"></div>
+           </li>
+       </ul>
+   </div>
+   <div class="span10">
+      <!--Body content-->
+  </div>
+</div>
+</div>
 </body>
 </html>
