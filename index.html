@@ -197,18 +197,18 @@
 <div id="header" data-dojo-type="dojox.mobile.Heading">
     <div id="aboutButton" data-dojo-type="dojox.mobile.ToolBarButton" style="float: right;">About</div>
 </div>
-<div class="container-fluid" >
+<div class="container-fluid">
       <div class="row-fluid">
-          <div class="span9" style="height:100% !important;">
+          <div class="span9">
               <div id="mapView" data-dojo-type="dojox.mobile.View" data-dojo-props="selected: true">
-                <div id="mapContainer" data-dojo-type="dojox.mobile.ContentPane" >
-                    <div id="map" style="margin-top: 5px;"></div>
+                <div id="mapContainer" data-dojo-type="dojox.mobile.ContentPane">
+                    <div id="map" style="margin-top: 7px; min-height: 1024px;"></div>
                     <div id="search"></div>
                 </div>
             </div>
           </div>
 
-          <div class="span3" style="height: 100% !important;">
+          <div class="span3">
               <div id="aboutView" data-dojo-type="dojox.mobile.View" ng-controller="PanelCtrl" style="display:none" >
                   <ul data-dojo-type="dojox/mobile/RoundRectList" style="margin-right: 0px;">
                     <li data-dojo-type="dojox/mobile/ListItem"  class="mblListItem" ng-repeat = "dev in DevInfos">
