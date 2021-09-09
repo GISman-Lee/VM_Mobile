@@ -44,9 +44,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular-route.min.js"></script>
     <script src="Js/map.js"></script>
-    <!-- <script src="http://gmaps-utility-gis.googlecode.com/svn/trunk/gmapslayer/src/gmapslayer.js"></Script> -->
-    <!--  <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>  -->
-    <!--  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js"></script> -->
 
     <script>
       require(["esri/map", "dojox/mobile", "dojox/mobile/parser", "esri/sniff",
@@ -63,10 +60,7 @@
             zoom: 10,
             slider: false
           });
-          //osmLayer = new esri.layers.OpenStreetMapLayer();
-          //map.addLayer(osmLayer);
-          //gMapLayer = new gmaps.GoogleMapsLayer({ visible: true, id: 'googlemaps' });
-          //map.addLayer(gMapLayer);
+
           map.on("load", mapLoadHandler);
 
           var resizeEvt = (window.onorientationchange !== undefined && !has('android')) ? "orientationchange" : "resize";
@@ -96,7 +90,7 @@
             var sz = mobile.getScreenSize();
               if (sz.h > sz.w) { //portrait
                   //Need to add address bar height back to map
-                  return screen.availHeight - window.innerHeight - 40; /* 40 = height of bottom safari toolbar */
+                  return screen.availHeight - window.innerHeight - 40;
               } else { //landscape
                   //Need to react to full screen / bottom bar visible toggles
                   var _conn = on(window, 'resize', function () {
@@ -127,21 +121,18 @@
       map.addLayer(SubjectGraphicsLayer);
       map.addLayer(LocationGraphicsLayer);
 
-            dojo.connect(SubjectGraphicsLayer.graphics, "onClick", function(evt) {  //"onMouseMove"
+            dojo.connect(SubjectGraphicsLayer.graphics, "onClick", function(evt) { 
              var g = evt.graphic;
              map.infoWindow.setContent(g.getContent());
              map.infoWindow.setTitle("Device Infomation");
              map.infoWindow.show(evt.screenPoint,map.getInfoWindowAnchor(evt.screenPoint));
            });
-            //dojo.connect(SubjectGraphicsLayer.graphics, "onMouseLeave", function() {map.infoWindow.hide();} );
 
             setInterval( "QueryData()", 10000 );
           }
 
           function addPointToMap(entry) {
-            //var point = new esri.geometry.Point(lon,lat);
-            //point = esri.geometry.geographicToWebMercator(point);
-
+              
             var template = new esri.InfoTemplate(
              "Device Information",
              "<h4>Device ID: </h4>" + entry.Did + "<br>" +
@@ -152,9 +143,9 @@
             SubjectGraphicsLayer.add(
 
               new esri.Graphic(
-                    //point,
-                    new esri.geometry.Point(entry.Longitude, entry.Latitude, new esri.SpatialReference({ wkid:4326 })),  //the  original third parameter --> map.spatialReference wkid:4326
-                    //new esri.symbol.SimpleMarkerSymbol().setColor(new dojo.Color([255,0,0,0.5]))
+                    /* point,
+                    ** the  original third parameter --> map.spatialReference wkid:4326 */
+                    new esri.geometry.Point(entry.Longitude, entry.Latitude, new esri.SpatialReference({ wkid:4326 })),  
                     new esri.symbol.PictureMarkerSymbol('images/DeviceType' + entry.SubjectType.toString() +'/number_'+ entry.Id.toString() +'.png',25,25),
                     null,
                     template
@@ -166,23 +157,19 @@
 
           function QueryData(){
             var MyQuery = esri.request({
-               url:  "http://120.151.95.114:8080/Projects/Services/GPSServices.svc/GetTrackerDevCrossTable",  //"http://120.151.95.114:8080/GPSServices.svc/GetTrackerDevCrossTable", //"data/test2.json",
+               url:  "http://120.151.95.114:8080/Projects/Services/GPSServices.svc/GetTrackerDevCrossTable",
                handleAs: "json",
-               //callbackParamName: "jsoncallback"
              });
             MyQuery.then(requestSucceeded, requestFailed);
           }
 
           function requestSucceeded(data) {
-            //var jsonData = JSON.parse(data);
-
             SubjectGraphicsLayer.clear();
-            //map.graphics.clear();
             data.forEach(function(entry){
              addPointToMap(entry);
            });
 
-            console.log("Data: ", data); // print the data to browser's console
+            console.log("Data: ", data);
           }
 
           function requestFailed(error) {
@@ -190,7 +177,6 @@
           }
 
           dojo.ready(OnloadCallBack);
-        //contentDivHeight = $("#mapView").height();contentDivWidth = $("#mapView").width(); alert(contentDivHeight.toString());
       </script>
 
       <script>
